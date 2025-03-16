@@ -1,0 +1,125 @@
+<!DOCTYPE html>  
+<html lang="id">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Data Pegawai</title>  
+    <style>  
+        table {  
+            width: 100%;  
+            border-collapse: collapse;  
+        }  
+        th, td {  
+            border: 1px solid black;  
+            padding: 8px;  
+            text-align: center;  
+        }  
+        thead {  
+            background-color: #f2f2f2;  
+            font-weight: bold;  
+        }  
+    </style>  
+</head>  
+<body>  
+    <table>  
+        <thead>  
+            <tr>  
+                <th>Nama Pegawai</th>  
+                <th>Umur</th>  
+                <th>Jabatan</th>  
+                <th>Status</th>  
+                <th>Gaji Pokok</th>  
+                <th>Tunjangan Jabatan</th>  
+                <th>BPJS</th>  
+                <th>Tunjangan Keluarga</th>  
+                <th>Total Gaji</th>  
+            </tr>  
+        </thead>  
+        <tbody id="dataPegawai"></tbody>  
+        <tfoot id="totalGaji"></tfoot>  
+    </table>  
+
+    <script>  
+        // Data Pegawai  
+        // const pegawai = {  
+        //     nama: "Dodi Prayodi",  
+        //     umur: 25,  
+        //     jabatan: "Manajer",  
+        //     status: "Menikah"  
+        // };  
+        // Metode 1: Prompt Standar  
+        const pegawai = {  
+            nama: prompt("Masukkan Nama Pegawai:"),  
+            umur: parseInt(prompt("Masukkan Umur Pegawai:")),  
+            jabatan: prompt("Masukkan Jabatan Pegawai (Manajer/Asisten Manajer/Staff):"),  
+            status: prompt("Masukkan Status Pernikahan (Menikah/Belum Menikah):")  
+        };  
+
+        // Hitung Gaji  
+        function hitungGaji(jabatan, status) {  
+            // Gaji Pokok  
+            let gajiPokok = 0;  
+            switch(jabatan) {  
+                case "Manajer":   
+                    gajiPokok = 15000000;   
+                    break;  
+                case "Asisten Manajer":   
+                    gajiPokok = 10000000;   
+                    break;  
+                default:   
+                    gajiPokok = 5000000;  
+            }  
+
+            // Tunjangan Jabatan  
+            let tunjanganJabatan = gajiPokok * 0.15;  
+
+            // BPJS  
+            let bpjs = gajiPokok * 0.10;  
+
+            // Tunjangan Keluarga  
+            let tunjanganKeluarga = status === "Menikah" ? gajiPokok * 0.20 : 0;  
+
+            // Total Gaji  
+            let totalGaji = gajiPokok + tunjanganJabatan + bpjs + tunjanganKeluarga;  
+
+            return {  
+                gajiPokok,  
+                tunjanganJabatan,  
+                bpjs,  
+                tunjanganKeluarga,  
+                totalGaji  
+            };  
+        }  
+
+        // Tampilkan Data  
+        function tampilkanData() {  
+            const gaji = hitungGaji(pegawai.jabatan, pegawai.status);  
+            const tbody = document.getElementById('dataPegawai');  
+            const tfoot = document.getElementById('totalGaji');  
+
+            tbody.innerHTML = `  
+                <tr>  
+                    <td>${pegawai.nama}</td>  
+                    <td>${pegawai.umur}</td>  
+                    <td>${pegawai.jabatan}</td>  
+                    <td>${pegawai.status}</td>  
+                    <td>Rp. ${gaji.gajiPokok.toLocaleString()}</td>  
+                    <td>Rp. ${gaji.tunjanganJabatan.toLocaleString()}</td>  
+                    <td>Rp. ${gaji.bpjs.toLocaleString()}</td>  
+                    <td>Rp. ${gaji.tunjanganKeluarga.toLocaleString()}</td>  
+                    <td>Rp. ${gaji.totalGaji.toLocaleString()}</td>  
+                </tr>  
+            `;  
+
+            tfoot.innerHTML = `  
+                <tr>  
+                    <td colspan="8">Total Gaji</td>  
+                    <td>Rp. ${gaji.totalGaji.toLocaleString()}</td>  
+                </tr>  
+            `;  
+        }  
+
+        // Panggil fungsi tampilkan data  
+        tampilkanData();  
+    </script>  
+</body>  
+</html>  
